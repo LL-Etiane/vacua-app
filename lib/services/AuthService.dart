@@ -46,6 +46,8 @@ class AuthServices {
   Future signOut(BuildContext context, WidgetRef ref) async {
     UserModel user = ref.read(userProvider)!;
     Map<String, String> data = {"token": user.token, "message": "logout"};
+    _dio.options.headers['Authorization'] =
+        'Bearer ${ref.read(userProvider)!.token}';
     try {
       await _dio.post("/auth/logout", data: data);
       await user.deleteFromSecureStore();
