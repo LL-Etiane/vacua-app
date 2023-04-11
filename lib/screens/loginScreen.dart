@@ -73,81 +73,86 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
       body: SafeArea(
         top: false,
         bottom: false,
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+        child: SingleChildScrollView(
           child: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/background.png"),
-                  fit: BoxFit.cover,
-                  alignment: Alignment.center,
-                  opacity: 1.0,
-                  colorFilter: ColorFilter.linearToSrgbGamma()),
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal:
-                    MediaQuery.of(context).size.width > 600 ? 200.0 : 20.0,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 100.0,
-                    child: Center(
-                      child: Image.asset("assets/images/logo.png"),
-                    ),
+            height: MediaQuery.of(context).size.height,
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/background.png"),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.center,
+                      opacity: 1.0,
+                      colorFilter: ColorFilter.linearToSrgbGamma()),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal:
+                        MediaQuery.of(context).size.width > 600 ? 200.0 : 20.0,
                   ),
-                  const SizedBox(height: 40.0),
-                  Padding(
-                    padding: MediaQuery.of(context).size.width > 600
-                        ? const EdgeInsets.only(left: 30.0)
-                        : const EdgeInsets.only(left: 20.0),
-                    child: Text(
-                      AppLocalizations.of(context)!.welcome,
-                      style:
-                          const TextStyle(fontSize: 30.0, color: Colors.white),
-                    ),
-                  ),
-                  if (errorText != "")
-                    Text(
-                      errorText,
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 20.0,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 100.0,
+                        child: Center(
+                          child: Image.asset("assets/images/logo.png"),
+                        ),
                       ),
-                    ),
-                  CustomInputField(
-                    hintText: AppLocalizations.of(context)!.email,
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    obscureText: false,
-                  ),
-                  const SizedBox(height: 20.0),
-                  CustomInputField(
-                    hintText: AppLocalizations.of(context)!.password,
-                    obscureText: true,
-                    controller: _passwordController,
-                  ),
-                  const SizedBox(height: 60.0),
-                  !loading
-                      ? Center(
-                          child: CustomButton(
-                            label: AppLocalizations.of(context)!.login,
-                            width: 300.0,
-                            height: 50.0,
-                            onPressed: () async {
-                              await _loginUser(context);
-                            },
-                          ),
-                        )
-                      : const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
+                      const SizedBox(height: 40.0),
+                      Padding(
+                        padding: MediaQuery.of(context).size.width > 600
+                            ? const EdgeInsets.only(left: 30.0)
+                            : const EdgeInsets.only(left: 20.0),
+                        child: Text(
+                          AppLocalizations.of(context)!.welcome,
+                          style: const TextStyle(
+                              fontSize: 30.0, color: Colors.white),
+                        ),
+                      ),
+                      if (errorText != "")
+                        Text(
+                          errorText,
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 20.0,
                           ),
                         ),
-                ],
+                      CustomInputField(
+                        hintText: AppLocalizations.of(context)!.email,
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        obscureText: false,
+                      ),
+                      const SizedBox(height: 20.0),
+                      CustomInputField(
+                        hintText: AppLocalizations.of(context)!.password,
+                        obscureText: true,
+                        controller: _passwordController,
+                      ),
+                      const SizedBox(height: 60.0),
+                      !loading
+                          ? Center(
+                              child: CustomButton(
+                                label: AppLocalizations.of(context)!.login,
+                                width: 300.0,
+                                height: 50.0,
+                                onPressed: () async {
+                                  await _loginUser(context);
+                                },
+                              ),
+                            )
+                          : const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
