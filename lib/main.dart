@@ -103,67 +103,6 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 }
 
-class MydApp extends ConsumerWidget {
-  MydApp({super.key});
-
-  String _initialRoute = '/login';
-
-  final storage = FlutterSecureStorage();
-
-  Future checkIfUserAlreadyExist(WidgetRef ref) async {
-    if (await storage.containsKey(key: "user")) {
-      String? userString = await storage.read(key: "user");
-
-      UserModel user = UserModel.fromSecureStorage(userString!);
-      ref.read(userProvider.notifier).state = user;
-
-      _initialRoute = '/home';
-    }
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    checkIfUserAlreadyExist(ref);
-
-    Future.delayed(
-        const Duration(
-          seconds: 3,
-        ), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
-    });
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Palette.myPaletteLight,
-        brightness: Brightness.light,
-        textTheme: GoogleFonts.mcLarenTextTheme(Theme.of(context).textTheme),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      darkTheme: ThemeData(
-        primarySwatch: Palette.myPaletteDark,
-        brightness: Brightness.dark,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      themeMode: ThemeMode.system,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: ref.watch(localeProvider),
-      home: const ClassRooms(),
-      initialRoute: _initialRoute,
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        '/home': (context) => const MainHomePage(),
-        '/profile': (context) => const ProfileScreen(),
-        '/settings': (context) => const SettingsPage(),
-      },
-    );
-  }
-}
-
 final themeModeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.system);
 final isDarkModeProvider = Provider<bool>((ref) {
   final themeMode = ref.watch(themeModeProvider);
