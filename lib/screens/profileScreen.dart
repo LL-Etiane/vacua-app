@@ -1,11 +1,14 @@
 import "package:flutter/material.dart";
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vacua_app/main.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    String fullName = ref.read(userProvider)!.fullName;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -38,9 +41,9 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                const Text(
-                  "John Doe",
-                  style: TextStyle(
+                Text(
+                  fullName,
+                  style: const TextStyle(
                     fontSize: 22.0,
                     fontWeight: FontWeight.bold,
                   ),
